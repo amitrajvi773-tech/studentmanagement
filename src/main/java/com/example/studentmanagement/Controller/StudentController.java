@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -21,6 +22,18 @@ public class StudentController {
 
     @PostMapping
     public StudentEntity poststudent(@RequestBody StudentEntity entitydata){
-        return studentService.addStudent(entitydata);
+        return studentService.addStudent(entitydata);}
+
+    @GetMapping("/id/{myid}")
+    public Optional<StudentEntity> findById(@PathVariable Integer myid){
+            return studentService.findid(myid);}
+
+    @DeleteMapping("/id/{myid}")
+    public void deletebyid(@PathVariable Integer myid){
+         studentService.delete(myid);
     }
+
+
+
+
 }
