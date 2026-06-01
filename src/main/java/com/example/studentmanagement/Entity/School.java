@@ -1,23 +1,22 @@
 package com.example.studentmanagement.Entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity
-public class StudentEntity {
+public class School {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String schoolname;
 
-    private String studentname;
-    private String email;
-    private String branch;
-
-
+    @OneToMany
+    List<StudentEntity> students=new ArrayList<>();
 
 }
