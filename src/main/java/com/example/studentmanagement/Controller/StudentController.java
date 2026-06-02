@@ -1,6 +1,8 @@
 package com.example.studentmanagement.Controller;
 
+import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
+import com.example.studentmanagement.Service.SchoolService;
 import com.example.studentmanagement.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +20,20 @@ public class StudentController {
     @Autowired
    private StudentService studentService;
 
+    @Autowired
+    private SchoolService schoolService;
     @GetMapping
     public List<StudentEntity>  allStudent(){
         return studentService.allstudent();
     }
 
-    @PostMapping
-    public StudentEntity poststudent(@RequestBody StudentEntity entitydata){
-        return studentService.addStudent(entitydata);}
+    @PostMapping("school/{myid}")
+    public StudentEntity poststudent(@RequestBody StudentEntity entitydata,@PathVariable Integer myid){
+//        return studentService.addStudent(entitydata);
+
+    }
+
+
 
     @GetMapping("/id/{myid}")
     public Optional<StudentEntity> findById(@PathVariable Integer myid){
@@ -36,20 +44,7 @@ public class StudentController {
          studentService.delete(myid);
     }
 
-//    @PutMapping("/id/{myid}")
-//    public StudentController updatastudent(@RequestBody StudentEntity entitydata,@PathVariable Integer myid){
-//     Optional<StudentEntity> student=studentService.findid(myid);
-//     if(student.isPresent()){
-//         StudentEntity existingstudent=student.get();
-//         existingstudent.setStudentname(entitydata.getStudentname());
-//         existingstudent.setEmail(entitydata.getEmail());
-//         existingstudent.setBranch(entitydata.getBranch());
-//
-//     }
-//     return studentService.addStudent(exis)
-//
-//
-//    }
+
     @PutMapping("/id/{myid}")
     public ResponseEntity<?> updatastudent(@RequestBody StudentEntity entitydata, @PathVariable Integer myid) {
         StudentEntity existingstudent = studentService.findid(myid).orElse(null);

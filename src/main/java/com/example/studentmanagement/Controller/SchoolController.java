@@ -33,5 +33,6 @@ public class SchoolController {
         else {
             System.out.println("wrong entry");
         }
+        return  null;
     }
 }
