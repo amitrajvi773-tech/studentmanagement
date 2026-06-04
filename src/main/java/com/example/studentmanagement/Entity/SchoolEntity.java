@@ -19,4 +19,5 @@ public class SchoolEntity {
     @OneToMany
     List<StudentEntity> students=new ArrayList<>();
 
+
 }

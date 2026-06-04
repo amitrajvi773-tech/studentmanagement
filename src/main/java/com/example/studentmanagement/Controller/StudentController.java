@@ -24,12 +24,13 @@ public class StudentController {
     private SchoolService schoolService;
     @GetMapping
     public List<StudentEntity>  allStudent(){
+
         return studentService.allstudent();
     }
 
     @PostMapping("school/{myid}")
     public StudentEntity poststudent(@RequestBody StudentEntity entitydata,@PathVariable Integer myid){
-//        return studentService.addStudent(entitydata);
+        return studentService.addStudent(entitydata);
 
     }
 

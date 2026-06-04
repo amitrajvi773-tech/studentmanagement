@@ -15,11 +15,13 @@ import java.util.List;
 public class SchoolController {
     @Autowired
     private SchoolService schoolService;
-    @GetMapping
-    public ResponseEntity<?> getschool(){
-        List<SchoolEntity> s=schoolService.getAllSchool();
-        if(s !=null){
-            return new ResponseEntity<>(s, HttpStatus.OK);
+    @GetMapping("/{schoolname}")
+    public ResponseEntity<?> getallstudentofschool(@PathVariable String schoolname ){
+        SchoolEntity school=schoolService.findbyschoolname(schoolname);
+
+        List<StudentEntity> all=school.getStudents();
+        if(all !=null){
+            return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
