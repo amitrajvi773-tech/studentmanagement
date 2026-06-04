@@ -1,6 +1,8 @@
 package com.example.studentmanagement.Service;
 
+import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
+import com.example.studentmanagement.Repository.SchoolRepository;
 import com.example.studentmanagement.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,16 +16,23 @@ import java.util.Optional;
 public class StudentService {
 @Autowired
     StudentRepository studentRepository;
+@Autowired
+SchoolService schoolService;
 
+@Autowired
+    SchoolRepository schoolRepository;
 
 public List<StudentEntity> allstudent(){
 
     return studentRepository.findAll();
 }
 
-public StudentEntity addStudent(StudentEntity entitydata){
+public void  addStudent(StudentEntity entitydata,String schoolname){
+    SchoolEntity school=schoolService.findbyschoolname(schoolname);
+   StudentEntity savestudent= studentRepository.save(entitydata);
+   school.getStudents().add(savestudent);
+   schoolService.addSchool(school);
 
-    return studentRepository.save(entitydata);
 }
 
 public Optional<StudentEntity> findid(@PathVariable Integer id){
@@ -38,6 +47,7 @@ public Optional<StudentEntity> findid(@PathVariable Integer id){
     public StudentEntity updatestudent( StudentEntity updatedddata){
     return studentRepository.save(updatedddata);
     }
+//
 }
 
 

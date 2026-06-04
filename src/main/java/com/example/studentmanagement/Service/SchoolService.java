@@ -1,6 +1,7 @@
 package com.example.studentmanagement.Service;
 
 import com.example.studentmanagement.Entity.SchoolEntity;
+import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,6 @@ public class SchoolService {
     }
 
     public SchoolEntity findbyschoolname(@PathVariable String schoolname){
-        return  schoolRepository.findBySchoolname(schoolname);
+        return  schoolRepository.findBySchoolName(schoolname);
     }
 }

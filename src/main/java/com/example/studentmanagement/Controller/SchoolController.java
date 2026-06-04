@@ -1,7 +1,6 @@
 package com.example.studentmanagement.Controller;
 
 import com.example.studentmanagement.Entity.SchoolEntity;
-import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,13 +14,12 @@ import java.util.List;
 public class SchoolController {
     @Autowired
     private SchoolService schoolService;
-    @GetMapping("/{schoolname}")
-    public ResponseEntity<?> getallstudentofschool(@PathVariable String schoolname ){
-        SchoolEntity school=schoolService.findbyschoolname(schoolname);
+    @GetMapping()
+    public ResponseEntity<?> getallstudentofschool(){
 
-        List<StudentEntity> all=school.getStudents();
-        if(all !=null){
-            return new ResponseEntity<>(all, HttpStatus.OK);
+        List<SchoolEntity> s=schoolService.getAllSchool();
+        if(s !=null){
+            return new ResponseEntity<>(s, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

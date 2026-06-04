@@ -21,16 +21,25 @@ public class StudentController {
    private StudentService studentService;
 
     @Autowired
-    private SchoolService schoolService;
-    @GetMapping
-    public List<StudentEntity>  allStudent(){
-
-        return studentService.allstudent();
+    private SchoolService  schoolService;
+;
+    @GetMapping("{schoolname}")
+    public ResponseEntity<?>  getAllStudentFromSchool(@PathVariable String schoolname){
+        SchoolEntity school=schoolService.findbyschoolname(schoolname);
+        List<StudentEntity> all=school.getStudents();
+        if(all!=null){
+            return new ResponseEntity<>(all,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("school/{myid}")
-    public StudentEntity poststudent(@RequestBody StudentEntity entitydata,@PathVariable Integer myid){
-        return studentService.addStudent(entitydata);
+    @PostMapping("{schoolname}")
+    public ResponseEntity<?> poststudent(@RequestBody StudentEntity entitydata,@PathVariable String schoolname ){
+      try{  studentService.addStudent(entitydata,schoolname);
+        return new ResponseEntity<>(entitydata,HttpStatus.CREATED);}
+      catch (Exception e) {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
 
     }
 
