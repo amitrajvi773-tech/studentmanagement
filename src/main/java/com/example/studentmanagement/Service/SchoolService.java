@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolService {
@@ -23,6 +24,14 @@ public class SchoolService {
     }
 
     public SchoolEntity findbyschoolname(@PathVariable String schoolname){
-        return  schoolRepository.findBySchoolName(schoolname);
+        return  schoolRepository.findBySchoolname(schoolname);
+    }
+
+    public Optional<SchoolEntity> getSchoolById(Integer myid) {
+        return schoolRepository.findById(myid);
+    }
+
+    public void deletebyid(Integer myid) {
+        schoolRepository.deleteById(myid);
     }
 }

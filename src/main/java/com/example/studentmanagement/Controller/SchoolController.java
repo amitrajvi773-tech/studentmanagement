@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/school")
@@ -27,12 +28,24 @@ public class SchoolController {
 
     @PostMapping
     public ResponseEntity<?> postSchool(@RequestBody SchoolEntity entry){
-        if(entry !=null){
-            schoolService.addSchool(entry);
+
+        if(entry != null){
+
+            SchoolEntity savedSchool = schoolService.addSchool(entry);
+
+            return new ResponseEntity<>(savedSchool, HttpStatus.CREATED);
         }
-        else {
-            System.out.println("wrong entry");
-        }
-        return  null;
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/id/{myid}")
+    public Optional<SchoolEntity> getSchollById(@PathVariable Integer myid) {
+        return schoolService.getSchoolById(myid);
+    }
+
+    @DeleteMapping("id/{myid}")
+    public void deleteById(@PathVariable Integer myid){
+        schoolService.deletebyid(myid);
     }
 }

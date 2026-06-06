@@ -22,11 +22,11 @@ SchoolService schoolService;
 @Autowired
     SchoolRepository schoolRepository;
 
+
 public List<StudentEntity> allstudent(){
 
     return studentRepository.findAll();
 }
-
 public void  addStudent(StudentEntity entitydata,String schoolname){
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
    StudentEntity savestudent= studentRepository.save(entitydata);

@@ -23,9 +23,12 @@ public class StudentController {
     @Autowired
     private SchoolService  schoolService;
 ;
-    @GetMapping("{schoolname}")
+    @GetMapping("/{schoolname}")
     public ResponseEntity<?>  getAllStudentFromSchool(@PathVariable String schoolname){
         SchoolEntity school=schoolService.findbyschoolname(schoolname);
+        if(school == null){
+            return ResponseEntity.notFound().build();
+        }
         List<StudentEntity> all=school.getStudents();
         if(all!=null){
             return new ResponseEntity<>(all,HttpStatus.OK);
@@ -33,7 +36,7 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("{schoolname}")
+    @PostMapping("/{schoolname}")
     public ResponseEntity<?> poststudent(@RequestBody StudentEntity entitydata,@PathVariable String schoolname ){
       try{  studentService.addStudent(entitydata,schoolname);
         return new ResponseEntity<>(entitydata,HttpStatus.CREATED);}
