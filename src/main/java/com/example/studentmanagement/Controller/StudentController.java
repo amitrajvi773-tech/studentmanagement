@@ -4,6 +4,7 @@ import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Service.SchoolService;
 import com.example.studentmanagement.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,7 +23,12 @@ public class StudentController {
 
     @Autowired
     private SchoolService  schoolService;
-;
+
+    @GetMapping
+    public List<StudentEntity> getAllStudent(){
+        return studentService.getAll();
+    }
+
     @GetMapping("/{schoolname}")
     public ResponseEntity<?>  getAllStudentFromSchool(@PathVariable String schoolname){
         SchoolEntity school=schoolService.findbyschoolname(schoolname);
@@ -37,8 +43,9 @@ public class StudentController {
     }
 
     @PostMapping("/{schoolname}")
-    public ResponseEntity<?> poststudent(@RequestBody StudentEntity entitydata,@PathVariable String schoolname ){
-      try{  studentService.addStudent(entitydata,schoolname);
+    public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata, @PathVariable String schoolname ){
+
+        try{  studentService.addStudent(entitydata,schoolname);
         return new ResponseEntity<>(entitydata,HttpStatus.CREATED);}
       catch (Exception e) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);

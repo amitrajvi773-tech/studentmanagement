@@ -48,4 +48,6 @@ public class SchoolController {
     public void deleteById(@PathVariable Integer myid){
         schoolService.deletebyid(myid);
     }
+
+
 }

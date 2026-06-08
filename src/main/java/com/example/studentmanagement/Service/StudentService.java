@@ -23,7 +23,7 @@ SchoolService schoolService;
     SchoolRepository schoolRepository;
 
 
-public List<StudentEntity> allstudent(){
+public List<StudentEntity> getAll(){
 
     return studentRepository.findAll();
 }
