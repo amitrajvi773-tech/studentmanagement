@@ -18,7 +18,7 @@ public class PublicController {
 
         if(entry != null){
 
-            SchoolEntity savedSchool = schoolService.addSchool(entry);
+            SchoolEntity savedSchool = schoolService.saveNewSchool(entry);
 
             return new ResponseEntity<>(savedSchool, HttpStatus.CREATED);
         }

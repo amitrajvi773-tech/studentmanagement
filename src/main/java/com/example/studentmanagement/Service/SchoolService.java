@@ -1,7 +1,6 @@
 package com.example.studentmanagement.Service;
 
 import com.example.studentmanagement.Entity.SchoolEntity;
-import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +15,13 @@ public class SchoolService {
     private SchoolRepository schoolRepository;
 
     public List<SchoolEntity> getAllSchool(){
+
         return schoolRepository.findAll();
     }
+      public void saveSchool(SchoolEntity school){
 
-    public  SchoolEntity addSchool(SchoolEntity entry){
+}
+    public  SchoolEntity saveNewSchool(SchoolEntity entry){
        return  schoolRepository.save(entry);
     }
 

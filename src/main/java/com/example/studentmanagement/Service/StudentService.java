@@ -7,7 +7,6 @@ import com.example.studentmanagement.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +30,7 @@ public void  addStudent(StudentEntity entitydata,String schoolname){
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
    StudentEntity savestudent= studentRepository.save(entitydata);
    school.getStudents().add(savestudent);
-   schoolService.addSchool(school);
+   schoolService.saveNewSchool(school);
 
 }
 
