@@ -1,4 +1,5 @@
 package com.example.studentmanagement.config;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SpringSecurity {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NonNull HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth->auth.requestMatchers("/public","/public/**").permitAll().
                 requestMatchers("/student","/student/**").authenticated().
                 requestMatchers("/school","/school/**").permitAll().

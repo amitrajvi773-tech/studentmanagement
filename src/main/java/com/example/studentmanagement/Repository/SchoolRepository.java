@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface SchoolRepository extends JpaRepository<SchoolEntity,Integer> {
     SchoolEntity findBySchoolname(String schoolName);
 
+
+
 }
 

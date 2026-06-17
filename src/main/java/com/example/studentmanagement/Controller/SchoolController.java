@@ -26,18 +26,7 @@ public class SchoolController {
 
     }
 
-    @PostMapping
-    public ResponseEntity<?> postSchool(@RequestBody SchoolEntity entry){
 
-        if(entry != null){
-
-            SchoolEntity savedSchool = schoolService.addSchool(entry);
-
-            return new ResponseEntity<>(savedSchool, HttpStatus.CREATED);
-        }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
 
     @GetMapping("/id/{myid}")
     public Optional<SchoolEntity> getSchollById(@PathVariable Integer myid) {
