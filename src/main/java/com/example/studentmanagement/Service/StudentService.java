@@ -26,27 +26,33 @@ public List<StudentEntity> getAll(){
 
     return studentRepository.findAll();
 }
-public void  addStudent(StudentEntity entitydata,String schoolname){
+
+public void saveStudent(StudentEntity entitydata, String schoolname){
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
    StudentEntity savestudent= studentRepository.save(entitydata);
    school.getStudents().add(savestudent);
-   schoolService.saveNewSchool(school);
+   schoolService.saveSchool(school);
 
 }
 
-public Optional<StudentEntity> findid(@PathVariable Integer id){
+public Optional<StudentEntity> findStudentById(@PathVariable Integer id){
+
     return studentRepository.findById(id);
+
 }
 
-    public void delete(@PathVariable Integer id) {
+    public void deleteStundent(@PathVariable Integer id) {
 
     studentRepository.deleteById(id);
+
     }
 
-    public StudentEntity updatestudent( StudentEntity updatedddata){
+    public StudentEntity updateStudent(StudentEntity updatedddata){
+
     return studentRepository.save(updatedddata);
+
     }
-//
+
 }
 
 

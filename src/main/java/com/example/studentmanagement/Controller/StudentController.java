@@ -7,9 +7,7 @@ import com.example.studentmanagement.Service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,7 +43,7 @@ public class StudentController {
     @PostMapping("/{schoolname}")
     public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata, @PathVariable String schoolname ){
 
-        try{  studentService.addStudent(entitydata,schoolname);
+        try{  studentService.saveStudent(entitydata,schoolname);
         return new ResponseEntity<>(entitydata,HttpStatus.CREATED);}
       catch (Exception e) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -57,17 +55,17 @@ public class StudentController {
 
     @GetMapping("/id/{myid}")
     public Optional<StudentEntity> findById(@PathVariable Integer myid){
-            return studentService.findid(myid);}
+            return studentService.findStudentById(myid);}
 
     @DeleteMapping("/id/{myid}")
     public void deletebyid(@PathVariable Integer myid){
-         studentService.delete(myid);
+         studentService.deleteStundent(myid);
     }
 
 
     @PutMapping("/id/{myid}")
     public ResponseEntity<?> updatastudent(@RequestBody StudentEntity entitydata, @PathVariable Integer myid) {
-        StudentEntity existingstudent = studentService.findid(myid).orElse(null);
+        StudentEntity existingstudent = studentService.findStudentById(myid).orElse(null);
            if(existingstudent == null){
                return ResponseEntity.notFound().build();
            }
@@ -76,7 +74,7 @@ public class StudentController {
             existingstudent.setBranch(entitydata.getBranch());
 
 
-        return new ResponseEntity<>(studentService.updatestudent(existingstudent), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.updateStudent(existingstudent), HttpStatus.OK);
 
 
     }
