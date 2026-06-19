@@ -33,8 +33,13 @@ public void saveStudent(StudentEntity entitydata, String schoolname){
 
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
    StudentEntity savestudent= studentRepository.save(entitydata);
+   try{
+       if(savestudent!=null){
    school.getStudentEntries().add(savestudent);
-   schoolService.saveSchool(school);
+   schoolService.saveSchool(school);}}
+   catch (Exception e) {
+       throw new RuntimeException(e);
+   }
 
 }
 

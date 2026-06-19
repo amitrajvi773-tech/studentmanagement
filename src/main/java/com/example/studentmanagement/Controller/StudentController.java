@@ -61,8 +61,11 @@ public class StudentController {
             return studentService.findStudentById(myid);}
 
     @DeleteMapping("/id/{myid}")
-    public void deletebyid(@PathVariable Integer myid){
-         studentService.deleteStundent(myid);
+    public boolean deletebyid(@PathVariable Integer myid){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String schoolname=authentication.getName();
+         studentService.deleteStundent(myid,schoolname);
+         return true;
     }
 
 
@@ -71,7 +74,7 @@ public class StudentController {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         String schoolname=authentication.getName();
 
-        StudentEntity existingstudent = studentService.fin.orElse(null);
+        StudentEntity existingstudent = studentService.findStudentByName(schoolname).orElse(null);
            if(existingstudent == null){
                return ResponseEntity.notFound().build();
            }
