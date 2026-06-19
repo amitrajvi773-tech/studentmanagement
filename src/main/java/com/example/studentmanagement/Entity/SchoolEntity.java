@@ -30,7 +30,9 @@ public class SchoolEntity {
     private List<String> schoolrole=new ArrayList<>();
     @OneToMany
 
-    List<StudentEntity> students=new ArrayList<>();
+
+    List<StudentEntity> studentEntries=new ArrayList<>();
+
 
 
 }

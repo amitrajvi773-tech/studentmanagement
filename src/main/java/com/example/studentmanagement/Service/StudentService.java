@@ -4,7 +4,9 @@ import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Repository.SchoolRepository;
 import com.example.studentmanagement.Repository.StudentRepository;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -28,9 +30,10 @@ public List<StudentEntity> getAll(){
 }
 
 public void saveStudent(StudentEntity entitydata, String schoolname){
+
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
    StudentEntity savestudent= studentRepository.save(entitydata);
-   school.getStudents().add(savestudent);
+   school.getStudentEntries().add(savestudent);
    schoolService.saveSchool(school);
 
 }
@@ -40,6 +43,11 @@ public Optional<StudentEntity> findStudentById(@PathVariable Integer id){
     return studentRepository.findById(id);
 
 }
+    public Optional<StudentEntity> findStudentByName(@PathVariable String username){
+
+        return studentRepository.findByStudentname(username);
+
+    }
 
     public void deleteStundent(@PathVariable Integer id) {
 
