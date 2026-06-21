@@ -72,7 +72,8 @@ public Optional<StudentEntity> findStudentByName(@PathVariable String username){
 
     }
 
-    public StudentEntity updateStudent(StudentEntity updatedddata){
+    public StudentEntity updateStudent(StudentEntity updatedddata,String schoolname){
+    
 
     return studentRepository.save(updatedddata);
 

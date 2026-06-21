@@ -10,9 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @Slf4j
 @RestController
 @RequestMapping("/school")
@@ -32,7 +29,7 @@ public class SchoolController {
 //    }
 
     @GetMapping()
-    public SchoolEntity getSchollById(@PathVariable Integer myid) {
+    public SchoolEntity getSchool() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username=authentication.getName();
         return schoolService.findbyschoolname(username);

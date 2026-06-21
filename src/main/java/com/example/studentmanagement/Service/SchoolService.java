@@ -24,10 +24,10 @@ public class SchoolService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    public List<SchoolEntity> getAllSchool(){
-//
-//        return schoolRepository.findAll();
-//    }
+    public List<SchoolEntity> getAllSchool(){
+
+        return schoolRepository.findAll();
+    }
 
     public SchoolEntity saveNewSchool(SchoolEntity school){
         try{

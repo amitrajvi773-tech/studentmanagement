@@ -19,75 +19,74 @@ import java.util.Optional;
 @RequestMapping("/student")
 public class StudentController {
     @Autowired
-   private StudentService studentService;
+    private StudentService studentService;
 
     @Autowired
-    private SchoolService  schoolService;
-
-
-
+    private SchoolService schoolService;
 
     @GetMapping("/{schoolname}")
-    public ResponseEntity<?>  getAllStudentFromSchool(){
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String name=authentication.getName();
-        SchoolEntity school=schoolService.findbyschoolname(name);
-        List<StudentEntity> student=school.getStudentEntries();
-        if(school == null){
+    public ResponseEntity<?> getAllStudentFromSchool() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        SchoolEntity school = schoolService.findbyschoolname(name);
+        List<StudentEntity> student = school.getStudentEntries();
+        if (school == null) {
             return ResponseEntity.notFound().build();
         }
 
-            return new ResponseEntity<>(student,HttpStatus.OK);
+        return new ResponseEntity<>(student, HttpStatus.OK);
 
     }
 
     @PostMapping("/{schoolname}")
-    public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata ){
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String schoolname=authentication.getName();
-        try{
-            studentService.saveStudent(entitydata,schoolname);
-        return new ResponseEntity<>(entitydata,HttpStatus.CREATED);}
-      catch (Exception e) {
-          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      }
+    public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String schoolname = authentication.getName();
+        try {
+            studentService.saveStudent(entitydata, schoolname);
+            return new ResponseEntity<>(entitydata, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 
 
-
     @GetMapping("/id/{myid}")
-    public Optional<StudentEntity> findById(@PathVariable Integer myid){
-            return studentService.findStudentById(myid);}
+    public Optional<StudentEntity> findById(@PathVariable Integer myid) {
+        return studentService.findStudentById(myid);
+    }
 
     @DeleteMapping("/id/{myid}")
-    public boolean deletebyid(@PathVariable Integer myid){
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String schoolname=authentication.getName();
-         studentService.deleteStundent(myid,schoolname);
-         return true;
+    public boolean deletebyid(@PathVariable Integer myid) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String schoolname = authentication.getName();
+        studentService.deleteStundent(myid, schoolname);
+        return true;
     }
 
 
     @PutMapping("/id/{myid}")
-    public ResponseEntity<?> updatastudent(@RequestBody StudentEntity entitydata, @PathVariable Integer myid) {
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String schoolname=authentication.getName();
+    public ResponseEntity<?> updatastudent(@RequestBody StudentEntity myentry, @PathVariable Integer myid) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String schoolname = authentication.getName();
+        SchoolEntity existingstudent = schoolService.findbyschoolname(schoolname);
+        if(existingstudent == null){
+            return ResponseEntity.notFound().build();
+        }
 
-        StudentEntity existingstudent = studentService.findStudentByName(schoolname).orElse(null);
-           if(existingstudent == null){
-               return ResponseEntity.notFound().build();
-           }
-            existingstudent.setStudentname(entitydata.getStudentname());
-            existingstudent.setEmail(entitydata.getEmail());
-            existingstudent.setBranch(entitydata.getBranch());
+        StudentEntity checking = existingstudent.getStudentEntries().stream().filter(x -> x.getId().equals(myid)).findFirst().orElse(null);
+        
+        if (checking != null) {
+            StudentEntity old = checking;
 
+            old.setStudentname(myentry.getStudentname() != null && !myentry.getStudentname().isEmpty() ? myentry.getStudentname() : old.getStudentname());
+            old.setEmail(myentry.getEmail() != null && !myentry.getEmail().isEmpty() ? myentry.getEmail() : old.getEmail());
+            old.setBranch(myentry.getBranch() != null && !myentry.getBranch().isEmpty() ? myentry.getBranch() : old.getBranch());
 
-        return new ResponseEntity<>(studentService.updateStudent(existingstudent), HttpStatus.OK);
+            return new ResponseEntity<>(studentService.updateStudent(old, schoolname), HttpStatus.OK);
+        }
 
-
+        return ResponseEntity.notFound().build();
     }
-
-
-
 }
