@@ -23,11 +23,13 @@ public class EmailValidationService {
         System.out.println("API KEY = " + API_KEY);
     }
     public boolean EmailValidation(String email) {
-//        String url = "https://emailvalidation.abstractapi.com/v1/?api_key=" + API_KEY + "&email=" + email;
-//
-//        EmailValidationResponse response = restTemplate.getForObject(url, EmailValidationResponse.class);
-//        return response != null && response.getSmtpValid().isValue();
-        return true;
+        String url = "http://apilayer.net/api/check?access_key=" + API_KEY + "&email=" + email;
+
+        EmailValidationResponse response = restTemplate.getForObject(url, EmailValidationResponse.class);
+        return response != null && response.isFormatValid()
+                && response.isMxFound()
+                && response.isSmtpCheck();
+//        return true;
 
 
     }

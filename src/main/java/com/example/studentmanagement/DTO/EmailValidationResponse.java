@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class EmailValidationResponse {
-    @JsonProperty("is_smpt_valid")
-    private SmtpValid smtpValid;
+    @JsonProperty("format_valid")
+    private boolean formatValid;
 
-    @Data
-    public static class SmtpValid {
-        private boolean value;
-    }}
+    @JsonProperty("mx_found")
+    private boolean mxFound;
+
+    @JsonProperty("smtp_check")
+    private boolean smtpCheck;}
