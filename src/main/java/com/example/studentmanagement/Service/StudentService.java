@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,9 @@ SchoolService schoolService;
 @Autowired
     SchoolRepository schoolRepository;
 
+@Autowired
+EmailValidationService emailValidationService;
+
 
 public List<StudentEntity> getAll(){
 
@@ -33,6 +37,9 @@ public List<StudentEntity> getAll(){
 public void saveStudent(StudentEntity entitydata, String schoolname){
 
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
+    if (!emailValidationService.EmailValidation(entitydata.getEmail())) {
+        throw new RuntimeException("invalid email");
+    }
    StudentEntity savestudent= studentRepository.save(entitydata);
    try{
        if(savestudent != null){

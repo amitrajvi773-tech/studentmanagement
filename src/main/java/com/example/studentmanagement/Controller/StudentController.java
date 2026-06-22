@@ -24,7 +24,7 @@ public class StudentController {
     @Autowired
     private SchoolService schoolService;
 
-    @GetMapping("/{schoolname}")
+    @GetMapping
     public ResponseEntity<?> getAllStudentFromSchool() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
@@ -33,12 +33,10 @@ public class StudentController {
         if (school == null) {
             return ResponseEntity.notFound().build();
         }
-
         return new ResponseEntity<>(student, HttpStatus.OK);
-
     }
 
-    @PostMapping("/{schoolname}")
+    @PostMapping
     public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String schoolname = authentication.getName();
@@ -46,8 +44,8 @@ public class StudentController {
             studentService.saveStudent(entitydata, schoolname);
             return new ResponseEntity<>(entitydata, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);        }
 
     }
 

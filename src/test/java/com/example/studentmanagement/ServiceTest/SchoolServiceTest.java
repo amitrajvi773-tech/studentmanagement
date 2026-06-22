@@ -1,4 +1,4 @@
-package com.example.studentmanagement;
+package com.example.studentmanagement.ServiceTest;
 
 
 import com.example.studentmanagement.Service.SchoolService;
