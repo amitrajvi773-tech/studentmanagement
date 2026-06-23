@@ -25,6 +25,10 @@ public class StudentEntity {
     @NotBlank(message = "write your branch")
     private String branch;
 
+    private  boolean verified=false;
+    private String verificationtoken;
+
+
 
 
 }

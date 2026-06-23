@@ -41,6 +41,7 @@ public class StudentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String schoolname = authentication.getName();
         try {
+            
             studentService.saveStudent(entitydata, schoolname);
             return new ResponseEntity<>(entitydata, HttpStatus.CREATED);
         } catch (Exception e) {
