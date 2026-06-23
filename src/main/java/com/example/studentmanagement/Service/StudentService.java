@@ -28,6 +28,9 @@ SchoolService schoolService;
 @Autowired
 EmailValidationService emailValidationService;
 
+@Autowired
+EmailSenderService emailSenderService;
+
 
 public List<StudentEntity> getAll(){
 
@@ -41,10 +44,17 @@ public void saveStudent(StudentEntity entitydata, String schoolname){
         throw new RuntimeException("invalid email");
     }
    StudentEntity savestudent= studentRepository.save(entitydata);
+    emailSenderService.sendMail(
+            entitydata.getEmail(),
+            "Registertion succesfully",
+            entitydata.getStudentname()
+    );
    try{
        if(savestudent != null){
    school.getStudentEntries().add(savestudent);
-   schoolService.saveSchool(school);}}
+   schoolService.saveSchool(school);
+
+       }}
    catch (Exception e) {
        throw new RuntimeException(e);
    }
