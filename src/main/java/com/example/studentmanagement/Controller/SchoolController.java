@@ -1,5 +1,6 @@
 package com.example.studentmanagement.Controller;
 
+import com.example.studentmanagement.DTO.SchoolGetDTO;
 import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Service.SchoolService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,8 @@ public class SchoolController {
     @Autowired
     private SchoolService schoolService;
 
+
+
 //    @GetMapping()
 //    public ResponseEntity<?> getallstudentofschool(){
 //
@@ -29,10 +32,15 @@ public class SchoolController {
 //    }
 
     @GetMapping()
-    public SchoolEntity getSchool() {
+    public SchoolGetDTO getSchool() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username=authentication.getName();
-        return schoolService.findbyschoolname(username);
+        SchoolEntity school = schoolService.findbyschoolname(username);
+
+        SchoolGetDTO schoolGetDTO=new SchoolGetDTO();
+        schoolGetDTO.setSchoolname(school.getSchoolname());
+        schoolGetDTO.setStudentEntries(school.getStudentEntries());
+        return schoolGetDTO;
     } 
 
     @DeleteMapping("id/{myid}")
@@ -44,9 +52,12 @@ public class SchoolController {
     @PutMapping
     public ResponseEntity<?> updateSchool(@RequestBody SchoolEntity entry){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        try {
+
             String schoolname=authentication.getName();
         SchoolEntity updated=schoolService.findbyschoolname(schoolname);
+        if(updated==null) {
+            throw new IllegalArgumentException("your entry has issue");
+        }
         updated.setSchoolname(entry.getSchoolname());
         updated.setPassword(entry.getPassword());
 
@@ -54,12 +65,8 @@ public class SchoolController {
         return new ResponseEntity<>(HttpStatus.OK);
 
 
-        } catch (Exception e) {
-            log.error("THERE IS ERROR IN YOUR PUTAPI",e);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        }
-    }
+    }}
 
 
-}
+

@@ -1,5 +1,6 @@
 package com.example.studentmanagement.Controller;
 
+import com.example.studentmanagement.DTO.StudentPostDTO;
 import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Service.SchoolService;
@@ -37,7 +38,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> poststudent(@Valid @RequestBody StudentEntity entitydata) {
+    public ResponseEntity<?> poststudent(@Valid @RequestBody StudentPostDTO entitydata) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String schoolname = authentication.getName();
         try {

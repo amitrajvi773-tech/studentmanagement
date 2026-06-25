@@ -28,9 +28,8 @@ public class SchoolEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> schoolrole=new ArrayList<>();
+
     @OneToMany
-
-
     List<StudentEntity> studentEntries=new ArrayList<>();
 
 

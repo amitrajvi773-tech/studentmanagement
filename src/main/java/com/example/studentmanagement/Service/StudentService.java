@@ -1,16 +1,14 @@
 package com.example.studentmanagement.Service;
 
+import com.example.studentmanagement.DTO.StudentPostDTO;
 import com.example.studentmanagement.Entity.SchoolEntity;
 import com.example.studentmanagement.Entity.StudentEntity;
 import com.example.studentmanagement.Repository.SchoolRepository;
 import com.example.studentmanagement.Repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,23 +30,31 @@ EmailValidationService emailValidationService;
 EmailSenderService emailSenderService;
 
 
+
+
 public List<StudentEntity> getAll(){
 
     return studentRepository.findAll();
 }
 
-public void saveStudent(StudentEntity entitydata, String schoolname){
+public void saveStudent(StudentPostDTO entitydata, String schoolname){
 
     SchoolEntity school=schoolService.findbyschoolname(schoolname);
     if (!emailValidationService.EmailValidation(entitydata.getEmail())) {
         throw new RuntimeException("invalid email");
     }
-   StudentEntity savestudent= studentRepository.save(entitydata);
+    StudentEntity studentEntity=new StudentEntity();
+    studentEntity.setStudentname(entitydata.getStudentname());
+    studentEntity.setEmail(entitydata.getEmail());
+    studentEntity.setBranch(entitydata.getBranch());
+   StudentEntity savestudent= studentRepository.save(studentEntity);
+
     emailSenderService.sendMail(
             entitydata.getEmail(),
             "Registertion succesfully",
             entitydata.getStudentname()
     );
+
    try{
        if(savestudent != null){
    school.getStudentEntries().add(savestudent);

@@ -46,7 +46,7 @@ public class SchoolService {
         return  schoolRepository.save(entry);
     }
 
-    public SchoolEntity findbyschoolname(@PathVariable String schoolname){
+    public SchoolEntity findbyschoolname( String schoolname){
 
         return  schoolRepository.findBySchoolname(schoolname);
 
